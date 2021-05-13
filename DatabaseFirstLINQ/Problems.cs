@@ -16,7 +16,7 @@ namespace DatabaseFirstLINQ
         public void RunLINQQueries()
         {
             ProblemOne();
-            ProblemTwo();
+            //ProblemTwo();
             //ProblemThree();
             //ProblemFour();
             //ProblemFive();
@@ -28,7 +28,7 @@ namespace DatabaseFirstLINQ
             //ProblemEleven();
             //ProblemTwelve();
             //ProblemThirteen();
-            //ProblemFourteen();
+            ProblemFourteen();
             //ProblemFifteen();
             //ProblemSixteen();
             //ProblemSeventeen();
@@ -68,20 +68,42 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that gets each product where the products price is greater than $150.
             // Then print the name and price of each product from the above query to the console.
+            var product = _context.Products;
 
+
+            var productsGreaterThanOneFity = product.Where(p => p.Price > 150);
+            foreach (var name in productsGreaterThanOneFity)
+            {
+                Console.WriteLine($"{name.Price} {name.Name}");
+            } 
+           
         }
 
         private void ProblemFour()
         {
             // Write a LINQ query that gets each product that contains an "s" in the products name.
             // Then print the name of each product from the above query to the console.
-
+            var product = _context.Products;
+            var containsS = product.Where(p => p.Name.Contains("s"));
+            foreach(var products in containsS)
+            { 
+            Console.WriteLine(products.Name);
+            }
+          
         }
 
         private void ProblemFive()
         {
             // Write a LINQ query that gets all of the users who registered BEFORE 2016
             // Then print each user's email and registration date to the console.
+            var rDate = _context.Users;
+            DateTime date = new DateTime(2016, 1, 1);  //year,month,day
+            var beforeSixteen = rDate.Where(d => d.RegistrationDate < date);
+
+            foreach(var dates in beforeSixteen)
+            {
+                Console.WriteLine($"{dates.Email} {dates.RegistrationDate}");
+            }
 
         }
 
@@ -89,7 +111,16 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that gets all of the users who registered AFTER 2016 and BEFORE 2018
             // Then print each user's email and registration date to the console.
-
+            var rDate = _context.Users;
+            DateTime dateAfter = new DateTime(2016, 12, 31);
+            DateTime dateBefore = new DateTime(2018, 1, 1);
+            var beforeSixteen = rDate.Where(d => d.RegistrationDate > dateAfter && d.RegistrationDate < dateBefore);
+            
+            foreach(var dates in beforeSixteen)
+            {
+                Console.WriteLine($"{dates.Email} {dates.RegistrationDate}");
+            }
+            
         }
 
         // <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
@@ -105,12 +136,17 @@ namespace DatabaseFirstLINQ
             }
         }
 
-        private void ProblemEight()
-        {
-            // Write a LINQ query that retreives all of the products in the shopping cart of the user who has the email "afton@gmail.com".
-            // Then print the product's name, price, and quantity to the console.
+        //private void ProblemEight()
+        //{
+        //    // Write a LINQ query that retreives all of the products in the shopping cart of the user who has the email "afton@gmail.com".
+        //    // Then print the product's name, price, and quantity to the console.
+        //    var user = _context.Products.Include(p => p.Id).Include(p => p.ShoppingCarts).Where(p => p.)
 
-        }
+        //    foreach (ShoppingCart products in user)
+        //    {                  
+        //      Console.WriteLine($" Product Name: {products.Product.Name} Price: {products.Product.Price} Quantity: {products.Quantity}");               
+        //    }
+        //}
 
         private void ProblemNine()
         {
@@ -146,7 +182,14 @@ namespace DatabaseFirstLINQ
         private void ProblemTwelve()
         {
             // Create a new Product object and add that product to the Products table using LINQ.
-
+            Product newProduct = new Product()
+            {
+                Name = "Soccer Ball",
+                Description = "Bouncy",
+                Price = 13
+            };
+            _context.Products.Add(newProduct);
+            _context.SaveChanges();
         }
 
         private void ProblemThirteen()
@@ -166,7 +209,15 @@ namespace DatabaseFirstLINQ
         private void ProblemFourteen()
         {
             // Add the product you create to the user we created in the ShoppingCart junction table using LINQ.
-
+            var productId = _context.Products.Where(p => p.Name == "Soccer Ball").Select(p => p.Id).SingleOrDefault();
+            var userId = _context.Users.Where(u => u.Email == "david@gmail.com").Select(u => u.Id).SingleOrDefault();
+            ShoppingCart newUserProduct = new ShoppingCart()
+            {
+                UserId = userId,
+                ProductId = productId
+            };
+            _context.ShoppingCarts.Add(newUserProduct);
+            _context.SaveChanges();
         }
 
         // <><> U Actions (Update) <><>

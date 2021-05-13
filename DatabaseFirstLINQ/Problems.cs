@@ -27,7 +27,7 @@ namespace DatabaseFirstLINQ
             //ProblemTen();
             ProblemEleven();
             ProblemTwelve();
-            //ProblemThirteen();
+            ProblemThirteen();
             //ProblemFourteen();
             //ProblemFifteen();
             //ProblemSixteen();

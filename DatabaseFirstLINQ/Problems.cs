@@ -22,7 +22,7 @@ namespace DatabaseFirstLINQ
             //ProblemFive();
             //ProblemSix();
             //ProblemSeven();
-            //ProblemEight();
+            ProblemEight();
             //ProblemNine();
             //ProblemTen();
             //ProblemEleven();
@@ -34,7 +34,7 @@ namespace DatabaseFirstLINQ
             //ProblemSeventeen();
             //ProblemEighteen();
             //ProblemNineteen();
-            ProblemTwenty();
+            //ProblemTwenty();
         }
 
         // <><><><><><><><> R Actions (Read) <><><><><><><><><>
@@ -136,17 +136,17 @@ namespace DatabaseFirstLINQ
             }
         }
 
-        //private void ProblemEight()
-        //{
-        //    // Write a LINQ query that retreives all of the products in the shopping cart of the user who has the email "afton@gmail.com".
-        //    // Then print the product's name, price, and quantity to the console.
-        //    var user = _context.Products.Include(p => p.Id).Include(p => p.ShoppingCarts).Where(p => p.)
+        private void ProblemEight()
+        {
+            // Write a LINQ query that retreives all of the products in the shopping cart of the user who has the email "afton@gmail.com".
+            // Then print the product's name, price, and quantity to the console.
+            var user = _context.ShoppingCarts.Where(id => id.User.Email == "afton@gmail.com").Include(id => id.Product).ToList();
 
-        //    foreach (ShoppingCart products in user)
-        //    {                  
-        //      Console.WriteLine($" Product Name: {products.Product.Name} Price: {products.Product.Price} Quantity: {products.Quantity}");               
-        //    }
-        //}
+            foreach (ShoppingCart products in user)
+            {
+                Console.WriteLine($" Product Name: {products.Product.Name} Price: {products.Product.Price} Quantity: {products.Quantity}");
+            }
+        }
 
         private void ProblemNine()
         {
